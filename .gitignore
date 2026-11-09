@@ -1,0 +1,9 @@
+.venv/
+__pycache__/
+*.pyc
+data/zenodo/
+data/glove/
+data/gensim/
+data/hf/
+data/*.zip
+.DS_Store

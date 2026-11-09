@@ -1,0 +1,65 @@
+{
+  "question": "After the Wei et al. text baseline is trained, how far do precision, recall, and F1 move on 200 held-out texts when those texts are paraphrased and the labels stay the same?",
+  "twibot20": {
+    "used": false,
+    "reason": "The public files are an unlabeled sample (TwiBot-20_sample.json). The original README says the full dataset is not posted and requires permission from shangbin@cs.washington.edu. The official TwiBot-20 split was not used."
+  },
+  "dataset": {
+    "source": "Zenodo 10.5281/zenodo.14795885",
+    "license": "MIT",
+    "records": "Posts.csv text joined to Users.csv isPuppet",
+    "bot": "isPuppet true (sockpuppet accounts)",
+    "human": "isPuppet false and isObserver false (DartPost participants)",
+    "excluded": "isObserver true accounts have no posts and are not treated as human labels",
+    "positive_class": "bot",
+    "split": "stratified holdout of 200 posts, seed 100. This is not an official TwiBot split.",
+    "n_posts": 1744,
+    "n_train": 1544,
+    "n_eval": 200,
+    "n_eval_bot": 58,
+    "n_eval_human": 142,
+    "n_train_bot": 447,
+    "n_train_human": 1097
+  },
+  "baseline": {
+    "name": "Wei et al. BiLSTM with attention",
+    "upstream_file": "LuoUndergradXJTU/TwiBot-22 src/Wei/Twibot-20/bilstm_attention.py",
+    "embedding": "frozen GloVe Twitter 25d",
+    "vocab_size": 50000,
+    "embedding_size": 25,
+    "sentence_max_len": 64,
+    "hidden_size": 16,
+    "num_layers": 3,
+    "epochs": 10,
+    "deviation": "LSTM initial state is zeros. Upstream samples it with torch.randn on every forward pass."
+  },
+  "paraphrase_model": "Qwen/Qwen2.5-0.5B-Instruct",
+  "n_paraphrases_unchanged_from_readable_text": 0,
+  "original_200": {
+    "precision": 0.7391304347826086,
+    "recall": 0.29310344827586204,
+    "f1": 0.41975308641975306,
+    "tp": 17,
+    "tn": 136,
+    "fp": 6,
+    "fn": 41,
+    "support_bot": 58,
+    "support_human": 142
+  },
+  "paraphrased_200": {
+    "precision": 0.5111111111111111,
+    "recall": 0.39655172413793105,
+    "f1": 0.44660194174757284,
+    "tp": 23,
+    "tn": 120,
+    "fp": 22,
+    "fn": 35,
+    "support_bot": 58,
+    "support_human": 142
+  },
+  "delta_paraphrased_minus_original": {
+    "precision": -0.22801932367149758,
+    "recall": 0.103448275862069,
+    "f1": 0.026848855327819776
+  }
+}
